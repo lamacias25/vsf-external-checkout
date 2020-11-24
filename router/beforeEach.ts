@@ -18,13 +18,13 @@ export async function beforeEach (to: Route, from: Route, next) {
         forceClientState: true,
         forceSync: true
       })
-      window.location.replace(stores[storeCode].cmsUrl + '/vue/cart/sync/token/' + userToken + '/cart/' + cartToken)
+      window.location.assign(stores[storeCode].cmsUrl + '/vue/cart/sync/token/' + userToken + '/cart/' + cartToken)
     } else if (storeCode in stores && to.name === 'checkout' && stores[storeCode].cmsUrl !== undefined) {
       await rootStore.dispatch('cart/sync', {
         forceClientState: true,
         forceSync: true
       })
-      window.location.replace(stores[storeCode].cmsUrl + '/vue/cart/sync/token/' + userToken + '/cart/' + cartToken)
+      window.location.assign(stores[storeCode].cmsUrl + '/vue/cart/sync/token/' + userToken + '/cart/' + cartToken)
     } else {
       next()
     }
@@ -34,7 +34,7 @@ export async function beforeEach (to: Route, from: Route, next) {
         forceClientState: true,
         forceSync: true
       })
-      window.location.replace(cmsUrl + '/vue/cart/sync/token/' + userToken + '/cart/' + cartToken)
+      window.location.assign(cmsUrl + '/vue/cart/sync/token/' + userToken + '/cart/' + cartToken)
     } else {
       next()
     }
