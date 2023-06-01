@@ -20,10 +20,12 @@ export async function beforeEach (to: Route, from: Route, next) {
       })
       window.location.assign(stores[storeCode].cmsUrl + '/vue/cart/sync/token/' + userToken + '/cart/' + cartToken)
     } else if (storeCode in stores && to.name === 'checkout' && stores[storeCode].cmsUrl !== undefined) {
+      rootStore.commit('ui/setSpinner', true);
       await rootStore.dispatch('cart/sync', {
         forceClientState: true,
         forceSync: true
       })
+      rootStore.commit('ui/setSpinner', false);
       window.location.assign(stores[storeCode].cmsUrl + '/vue/cart/sync/token/' + userToken + '/cart/' + cartToken)
     } else {
       next()
