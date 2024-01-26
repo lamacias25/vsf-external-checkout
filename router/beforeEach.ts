@@ -11,8 +11,18 @@ export async function beforeEach (to: Route, from: Route, next) {
   const stores = externalCheckoutConfig.stores;
   const storeCode = currentStoreView().storeCode
   const multistoreEnabled: boolean = config.storeViews.multistore
-
-  if (multistoreEnabled) {
+  let goToOSC =false;
+  if(to.query!=undefined)
+    if(to.query.utmSource!=undefined)
+      goToOSC=true;    
+  if(goToOSC){
+    await rootStore.dispatch('cart/sync', {
+      forceClientState: true,
+      forceSync: true
+    })
+    window.location.assign(stores[storeCode].cmsUrl + '/onestepcheckout/?utmSource='+to.query.utmSource);
+  }
+  else if (multistoreEnabled) {
     if (storeCode in stores && to.name === storeCode + '-checkout') {
       await rootStore.dispatch('cart/sync', {
         forceClientState: true,
